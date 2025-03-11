@@ -1,0 +1,132 @@
+##### Update values from one table based on the values in another table #####
+
+UPDATE secondary_cards
+SET pic = (SELECT pic FROM primary_cards WHERE primary_cards.primary_id = secondary_cards.primary_id);
+
+
+
+
+
+
+
+##### Populate Cell in JSON format from data in another Cell #####
+
+UPDATE secondary_cards
+SET Front = json_object(
+    'full_name', (SELECT short_name FROM primary_cards WHERE primary_id = secondary_cards.primary_id),
+    'birth_year', (SELECT birth_year FROM primary_cards WHERE primary_id = secondary_cards.primary_id),
+    'death_year', (SELECT death_year FROM primary_cards WHERE primary_id = secondary_cards.primary_id)
+)
+WHERE primary_id = 121007000;  -- Replace this with your actual condition
+
+
+
+
+
+
+##### Insert cards into secondary_table from primary_table #####
+
+INSERT INTO secondary_cards (primary_ID, front, back)
+SELECT
+    primary_ID,
+    json_object(
+        'short_name', null,
+        'subtitle', subtitle,        
+        'birth_year', birth_year,      
+        'death_year', death_year    
+    ) AS front,
+    json_object(                      
+        'short_name', short_name,
+        'subtitle', subtitle,             
+        'birth_year', birth_year,
+        'death_year', death_year
+    ) AS back
+        
+FROM primary_cards;
+    
+INSERT INTO secondary_cards (primary_ID, front, back)
+SELECT
+    primary_ID,
+    json_object(
+        'short_name', short_name,
+        'subtitle', null,        
+        'birth_year', birth_year,      
+        'death_year', death_year       
+    ) AS front,
+    json_object(                      
+        'short_name', short_name,
+        'subtitle', subtitle,             
+        'birth_year', birth_year,
+        'death_year', death_year
+    ) AS back
+            
+FROM primary_cards;
+
+
+INSERT INTO secondary_cards (primary_ID, front, back)
+SELECT
+    primary_ID,
+    json_object(
+        'short_name', short_name,
+        'subtitle', subtitle,        
+        'birth_year', null,      
+        'death_year', null       
+    ) AS front,
+    json_object(                      
+        'short_name', short_name,
+        'subtitle', subtitle,             
+        'birth_year', birth_year,
+        'death_year', death_year
+    ) AS back
+        
+FROM primary_cards; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OLD FLASK DB FETCH
+
+
+app = Flask(__name__)
+
+@app.route('/select_deck')
+def fetch_decks():    
+    # Fetch all table names that contain 'deck'
+    print('Fetching Decks...')
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    decks = cursor.fetchall()  # Returns a list of tuples [(deck1,), (deck2,), ...]
+    
+    # Convert list of tuples into a simple list of names
+    deck_names = [deck[0] for deck in decks]
+    print(deck_names)
+    print('Hello?')
+
+    # Close the database connection
+    conn.close()
+
+    # Pass the deck names to the HTML template
+    return render_template('select_deck.html', decks=deck_names)
+
+if __name__ == '__main__':
+    app.run(debug=True)
+    
