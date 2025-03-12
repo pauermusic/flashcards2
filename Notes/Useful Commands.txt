@@ -129,4 +129,19 @@ def fetch_decks():
 
 if __name__ == '__main__':
     app.run(debug=True)
-    
+
+
+
+
+REACT NATIVE 
+
+npx run android
+git commit -m "List Title of Commit Here"
+
+DEVELOPMENT ENVIRONMENT SETUP
+
+Install VSCode
+install node.js
+npm install -g expo-cli
+Install Android Studio, and install expo go on new virtual device
+Install Git, Configure SSH key, Install git lfs
