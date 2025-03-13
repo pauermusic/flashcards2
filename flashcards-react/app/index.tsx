@@ -1,64 +1,76 @@
-import { Image, StyleSheet, Platform } from 'react-native';
-import { Link } from 'expo-router';
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
+import { StyleSheet } from 'react-native';
+import { useNavigation } from 'expo-router';
+import { useEffect } from 'react';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { Pressable } from 'react-native';
 
 export default function HomeScreen() {
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: 'FlashLearn',
+      headerTitleAlign: 'center', // This centers the title in the header
+    });
+  }, [navigation]);
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">FlashLearn App</ThemedText>
-        <HelloWave />
+    <ThemedView style={styles.container}>
+      {/* Grid Container */}
+      <ThemedView style={styles.gridContainer}>
+        {/* Study Button - Full Width */}
+        <Pressable onPress={() => navigation.navigate('studycards')} style={[styles.gridItem, styles.studyButton]}>
+          <ThemedText type="subtitle">Study</ThemedText>
+        </Pressable>
+
+        {/* Other Buttons - 2x2 Layout */}
+        <Pressable onPress={() => navigation.navigate('deckviewer')} style={styles.gridItem}>
+          <ThemedText type="subtitle">View Decks</ThemedText>
+        </Pressable>
+        <Pressable onPress={() => navigation.navigate('cardviewer')} style={styles.gridItem}>
+          <ThemedText type="subtitle">View Cards</ThemedText>
+        </Pressable>
+        <Pressable onPress={() => navigation.navigate('settings')} style={styles.gridItem}>
+          <ThemedText type="subtitle">Settings</ThemedText>
+        </Pressable>
+        <Pressable onPress={() => navigation.navigate('additional')} style={styles.gridItem}>
+          <ThemedText type="subtitle">Additional Option</ThemedText>
+        </Pressable>
       </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle"><Link href="/study">Study</Link></ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle"><Link href="/deckviewer">View Decks</Link></ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle"><Link href="/cardviewer">View Cards</Link></ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
+  container: {
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-    gap: 8,
+    padding: 16,
+    backgroundColor: '#f4f4f9', // Background color for the entire page
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  gridContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    width: '100%',
+    paddingHorizontal: 8,
+    backgroundColor: 'transparent',
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  gridItem: {
+    width: '48%', // Default width for grid items
+    height: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
+    backgroundColor: '#ffffff', // White buttons
+    borderWidth: 1,
+    borderColor: '#D1D1D1',
+    borderRadius: 12, // Rounded corners for modern look
+  },
+  studyButton: {
+    width: '100%', // Full width for Study button
+    height: 200, // Taller button for prominence
   },
 });
