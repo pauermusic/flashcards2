@@ -1,9 +1,8 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Pressable } from 'react-native';
 import { useNavigation } from 'expo-router';
 import { useEffect } from 'react';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { Pressable } from 'react-native';
 
 export default function HomeScreen() {
   const navigation = useNavigation();
@@ -11,7 +10,7 @@ export default function HomeScreen() {
   useEffect(() => {
     navigation.setOptions({
       title: 'FlashLearn',
-      headerTitleAlign: 'center', // This centers the title in the header
+      headerTitleAlign: 'center', // Centers the title in the header
     });
   }, [navigation]);
 
@@ -20,7 +19,7 @@ export default function HomeScreen() {
       {/* Grid Container */}
       <ThemedView style={styles.gridContainer}>
         {/* Study Button - Full Width */}
-        <Pressable onPress={() => navigation.navigate('studycards')} style={[styles.gridItem, styles.studyButton]}>
+        <Pressable onPress={() => navigation.navigate('study')} style={[styles.gridItem, styles.studyButton]}>
           <ThemedText type="subtitle">Study</ThemedText>
         </Pressable>
 
