@@ -81,29 +81,6 @@ SELECT
         
 FROM primary_cards; 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 OLD FLASK DB FETCH
 
 
@@ -142,7 +119,18 @@ VACUUM;
 REACT NATIVE 
 
 npx run android
+
+
+GIT
+
+git add .
 git commit -m "List Title of Commit Here"
+git push origin master
+
+git pull origin master
+
+git remote set-url origin https://github.com/yourusername/newrepo.git
+
 
 DEVELOPMENT ENVIRONMENT SETUP
 
