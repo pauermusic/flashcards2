@@ -1,84 +1,72 @@
-import { useState } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { useRoute } from 'expo-router';
+// import * as SQLite from 'expo-sqlite'; // Importing SQLite
 
-const StudyScreen = () => {
-  // Define questions and answers
-  const questions = [
-    {
-      question: 'What is the capital of France?',
-      options: ['Berlin', 'Madrid', 'Paris', 'Rome'],
-      correctAnswer: 'Paris',
-    },
-    {
-      question: 'Who wrote "Hamlet"?',
-      options: ['Shakespeare', 'Dickens', 'Hemingway', 'Austen'],
-      correctAnswer: 'Shakespeare',
-    },
-    {
-      question: 'What is the largest ocean on Earth?',
-      options: ['Atlantic', 'Indian', 'Arctic', 'Pacific'],
-      correctAnswer: 'Pacific',
-    },
-  ];
+const db = SQLite.openDatabase('my_database.db'); // Make sure the SQLite database is properly initialized
 
-  // Track the current question index and score
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [score, setScore] = useState(0);
+export default function StudyScreen() {
+  const route = useRoute(); // Get the passed params (deckId)
+  const { deckId } = route.params; // Extract the deckId
 
-  const currentQuestion = questions[currentQuestionIndex];
+  const [deckData, setDeckData] = useState([]);
 
-  // Function to handle answer selection
-  const handleAnswer = (selectedAnswer: string) => {
-    if (selectedAnswer === currentQuestion.correctAnswer) {
-      setScore(score + 1); // Increment score if correct
-    }
+  useEffect(() => {
+    // Query the SQLite table based on the deckId passed from the SelectDeckScreen
+    const fetchDeckData = async () => {
+      db.transaction(tx => {
+        tx.executeSql(
+          `SELECT * FROM deck_${deckId}`, // Assuming your tables are named based on deckId
+          [],
+          (_, { rows }) => setDeckData(rows._array), // Update state with the queried data
+          (t, error) => console.log(error)
+        );
+      });
+    };
 
-    // Move to the next question
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    } else {
-      alert(`Quiz Over! Your score is: ${score + 1}`);
-      setCurrentQuestionIndex(0);
-      setScore(0); // Reset score after the quiz ends
-    }
-  };
+    fetchDeckData();
+  }, [deckId]); // Re-fetch data when deckId changes
 
   return (
     <View style={styles.container}>
-      <Text style={styles.question}>{currentQuestion.question}</Text>
-      <View style={styles.options}>
-        {currentQuestion.options.map((option, index) => (
-          <Button
-            key={index}
-            title={option}
-            onPress={() => handleAnswer(option)}
-          />
-        ))}
-      </View>
-      <Text style={styles.score}>Score: {score}</Text>
+      <Text style={styles.title}>Study Deck {deckId}</Text>
+
+      {/* Display the deck data (e.g., flashcards) */}
+      <FlatList
+        data={deckData}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => (
+          <View style={styles.card}>
+            <Text style={styles.cardText}>{item.question}</Text>
+            <Text style={styles.cardText}>{item.answer}</Text>
+          </View>
+        )}
+      />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
+    padding: 16,
   },
-  question: {
-    fontSize: 20,
-    marginBottom: 20,
-  },
-  options: {
-    marginBottom: 20,
-  },
-  score: {
-    marginTop: 20,
-    fontSize: 16,
+  title: {
+    fontSize: 24,
     fontWeight: 'bold',
+    marginBottom: 16,
+    textAlign: 'center',
+  },
+  card: {
+    padding: 16,
+    marginVertical: 8,
+    backgroundColor: 'white',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#ddd',
+  },
+  cardText: {
+    fontSize: 16,
+    marginVertical: 4,
   },
 });
-
-export default StudyScreen;

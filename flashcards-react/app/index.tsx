@@ -19,22 +19,22 @@ export default function HomeScreen() {
       {/* Grid Container */}
       <ThemedView style={styles.gridContainer}>
         {/* Study Button - Full Width */}
-        <Pressable onPress={() => navigation.navigate('study')} style={[styles.gridItem, styles.studyButton]}>
+        <Pressable onPress={() => navigation.navigate('selectdeck')} style={[styles.gridItem, styles.studyButton]}>
           <ThemedText type="subtitle">Study</ThemedText>
         </Pressable>
 
         {/* Other Buttons - 2x2 Layout */}
-        <Pressable onPress={() => navigation.navigate('deckviewer')} style={styles.gridItem}>
-          <ThemedText type="subtitle">View Decks</ThemedText>
+        <Pressable onPress={() => navigation.navigate('deckeditor')} style={styles.gridItem}>
+          <ThemedText type="subtitle">Deck Editor</ThemedText>
         </Pressable>
         <Pressable onPress={() => navigation.navigate('cardviewer')} style={styles.gridItem}>
-          <ThemedText type="subtitle">View Cards</ThemedText>
+          <ThemedText type="subtitle">Browse Cards</ThemedText>
         </Pressable>
-        <Pressable onPress={() => navigation.navigate('settings')} style={styles.gridItem}>
-          <ThemedText type="subtitle">Settings</ThemedText>
+        <Pressable onPress={() => navigation.navigate('studytracker')} style={styles.gridItem}>
+          <ThemedText type="subtitle">Study Tracker</ThemedText>
         </Pressable>
         <Pressable onPress={() => navigation.navigate('additional')} style={styles.gridItem}>
-          <ThemedText type="subtitle">Additional Option</ThemedText>
+          <ThemedText type="subtitle">Settings</ThemedText>
         </Pressable>
       </ThemedView>
     </ThemedView>
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   },
   gridItem: {
     width: '48%', // Default width for grid items
-    height: 100,
+    height: 160,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 16,
@@ -70,6 +70,6 @@ const styles = StyleSheet.create({
   },
   studyButton: {
     width: '100%', // Full width for Study button
-    height: 200, // Taller button for prominence
+    height: 260, // Taller button for prominence
   },
 });

@@ -1,0 +1,36 @@
+/* CSS to center the content */
+/* CSS to center the content with wide margins */
+body, html {
+    height: 100%; /* Ensure the body takes up the full height of the viewport */
+    margin: 0; /* Remove default margin */
+    display: flex;
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically */
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4; /* Optional: add background color */
+}
+
+/* Container that holds the app's content */
+.container {
+    width: 40%;
+    margin: 0 auto;
+    max-width: 800px; /* Limit the width to 800px (or any other value that suits you) */
+    padding: 0 20px; /* Add padding on the left and right */
+    text-align: center; /* Center text inside the container */
+}
+
+/* Style for buttons */
+button {
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
