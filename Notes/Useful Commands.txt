@@ -118,7 +118,10 @@ VACUUM;
 
 REACT NATIVE 
 
-npx run android
+npm run android
+
+adb kill-server
+adb start-server
 
 
 GIT
@@ -139,3 +142,9 @@ install node.js
 npm install -g expo-cli
 Install Android Studio, and install expo go on new virtual device
 Install Git, Configure SSH key, Install git lfs
+npm install expo-sqlite
+npm install expo-linear-gradient
+
+npm install sqlite
+npm install sqlite3
+
