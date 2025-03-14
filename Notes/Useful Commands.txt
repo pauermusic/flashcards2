@@ -131,6 +131,12 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 
+SQLITE STUDIO
+
+PRAGMA foreign_keys = OFF;
+VACUUM;
+
+
 
 
 REACT NATIVE 
